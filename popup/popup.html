@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Social Cleaner</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <span class="logo">⚡</span>
+    <span class="title">Social Cleaner</span>
+    <span class="version" id="version"></span>
+  </header>
+
+  <!-- Platform tabs — always visible -->
+  <div class="platform-tabs">
+    <button class="tab-btn" data-platform="facebook">📘 Facebook</button>
+    <button class="tab-btn" data-platform="instagram">📷 Instagram</button>
+    <button class="tab-btn" data-platform="twitter">𝕏 Twitter</button>
+    <button class="tab-btn" data-platform="linkedin">💼 LinkedIn</button>
+  </div>
+
+  <!-- SCREEN: Feature picker (Facebook default landing) -->
+  <div id="screen-picker" class="screen">
+    <p class="picker-title">What do you want to clean?</p>
+    <button class="feature-btn" data-feature="pages">
+      <span class="feature-icon">📄</span>
+      <span class="feature-body">
+        <span class="feature-title">Pages</span>
+        <span class="feature-desc">unfollow liked pages</span>
+      </span>
+    </button>
+    <button class="feature-btn" data-feature="groups">
+      <span class="feature-icon">👥</span>
+      <span class="feature-body">
+        <span class="feature-title">Groups</span>
+        <span class="feature-desc">leave joined groups</span>
+      </span>
+    </button>
+    <button class="feature-btn" data-feature="following">
+      <span class="feature-icon">👤</span>
+      <span class="feature-body">
+        <span class="feature-title">Following</span>
+        <span class="feature-desc">unfollow profiles & pages</span>
+      </span>
+    </button>
+  </div>
+
+  <!-- SCREEN: Coming soon (Instagram / Twitter / LinkedIn tab clicks) -->
+  <div id="screen-coming-soon" class="screen hidden">
+    <div class="coming-soon-box">
+      <span class="coming-soon-icon" id="coming-soon-icon">🚧</span>
+      <p class="coming-soon-title">
+        <span id="coming-soon-platform">Instagram</span> support is coming soon.
+      </p>
+      <p class="coming-soon-desc">
+        We're focused on Facebook first — Pages, Groups, and Following are live.
+        Ping us if you want to see this platform prioritized.
+      </p>
+      <button id="btn-back-to-fb" class="btn btn-start">← Back to Facebook</button>
+    </div>
+  </div>
+
+  <!-- SCREEN: Wrong URL — user picked a feature but the tab isn't on the right page -->
+  <div id="screen-wrong-url" class="screen hidden">
+    <div class="wrong-url-box">
+      <span class="wrong-url-icon">📍</span>
+      <p class="wrong-url-title">To use <strong id="wrong-url-feature"></strong>, this tab needs to be on:</p>
+      <code class="wrong-url-code" id="wrong-url-target"></code>
+      <button id="btn-nav-to-feature" class="btn btn-start">Take me there</button>
+      <button id="btn-wrong-url-back" class="btn-mini back-link">← Pick another tool</button>
+    </div>
+  </div>
+
+  <!-- SCREEN: Feature (existing pages/groups/following flows go here) -->
+  <div id="screen-feature" class="screen hidden">
+
+    <!-- Back link + counter + status (shared across feature panels) -->
+    <div class="feature-header">
+      <button id="btn-back-to-picker" class="btn-mini back-link" title="Change tool">← <span id="active-feature-label">Feature</span></button>
+    </div>
+
+    <div class="counter-wrap">
+      <div class="counter" id="counter">0</div>
+      <div class="counter-label" id="counter-label">unfollowed</div>
+    </div>
+
+    <div class="status" id="status">Waiting to start...</div>
+
+  <!-- ════════ PAGES PANEL (unfollow liked pages) ════════ -->
+  <div id="pages-panel" class="panel hidden">
+
+    <!-- Step 1: scan -->
+    <div id="pages-scan-step">
+      <p class="hint">Scan the pages you follow, filter by category or keyword, then bulk-unfollow.</p>
+      <button id="btn-pages-scan" class="btn btn-start">🔍 Scan my pages</button>
+    </div>
+
+    <!-- Step 2: review + select -->
+    <div id="pages-review-step" class="hidden">
+      <input type="text" id="pages-search" class="search-input"
+             placeholder="🔎 Filter by name (e.g. gym, shop)" />
+      <div class="chip-header">
+        <span>Categories</span>
+        <button id="btn-chips-clear" class="btn-mini">Clear</button>
+      </div>
+      <div id="pages-chips" class="chip-row"></div>
+      <div class="pages-toolbar">
+        <label class="selectall"><input type="checkbox" id="pages-selectall" /> All (filtered)</label>
+      </div>
+      <div id="pages-list" class="groups-list"></div>
+      <button id="btn-pages-unfollow" class="btn btn-stop" disabled>Unfollow selected (0)</button>
+    </div>
+
+    <!-- Step 3: confirm -->
+    <div id="pages-confirm-step" class="hidden confirm-box">
+      <p class="confirm-text">
+        Unfollow <strong id="pages-confirm-count">0</strong> pages? Each unfollow
+        is one click and fully reversible — re-follow anytime.
+      </p>
+      <div class="controls">
+        <button id="btn-pages-confirm-go" class="btn btn-stop">Yes, unfollow them</button>
+        <button id="btn-pages-confirm-cancel" class="btn btn-resume">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Running state + live log -->
+    <div id="pages-running-step" class="hidden">
+      <div id="pages-run-summary" class="run-summary"></div>
+      <div id="pages-log" class="groups-log"></div>
+      <div class="run-controls">
+        <button id="btn-pages-pause" class="btn btn-resume">⏸ Pause</button>
+        <button id="btn-pages-resume" class="btn btn-start hidden">▶ Resume</button>
+        <button id="btn-pages-stop" class="btn btn-stop">⛔ Stop</button>
+      </div>
+      <button id="btn-pages-done" class="btn btn-start hidden">Scan again</button>
+    </div>
+  </div>
+
+  <!-- ════════ FOLLOWING PANEL (unfollow from /USERNAME/following/) ════════ -->
+  <div id="following-panel" class="panel hidden">
+
+    <!-- Step 1: scan -->
+    <div id="following-scan-step">
+      <p class="hint">Scan the profiles and pages you follow, filter, then bulk-unfollow.</p>
+      <button id="btn-following-scan" class="btn btn-start">🔍 Scan my following</button>
+    </div>
+
+    <!-- Step 2: review + select -->
+    <div id="following-review-step" class="hidden">
+      <input type="text" id="following-search" class="search-input"
+             placeholder="🔎 Filter by name (comma = OR)" />
+      <div class="pages-toolbar">
+        <label class="selectall"><input type="checkbox" id="following-selectall" /> All (filtered)</label>
+      </div>
+      <div id="following-list" class="groups-list"></div>
+      <button id="btn-following-unfollow" class="btn btn-stop" disabled>Unfollow selected (0)</button>
+    </div>
+
+    <!-- Step 3: confirm -->
+    <div id="following-confirm-step" class="hidden confirm-box">
+      <p class="confirm-text">
+        Unfollow <strong id="following-confirm-count">0</strong> entries?
+        For profiles this hides posts (you stay friends). For pages it's fully reversible.
+      </p>
+      <div class="controls">
+        <button id="btn-following-confirm-go" class="btn btn-stop">Yes, unfollow them</button>
+        <button id="btn-following-confirm-cancel" class="btn btn-resume">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Running state + live log -->
+    <div id="following-running-step" class="hidden">
+      <div id="following-run-summary" class="run-summary"></div>
+      <div id="following-log" class="groups-log"></div>
+      <div class="run-controls">
+        <button id="btn-following-pause" class="btn btn-resume">⏸ Pause</button>
+        <button id="btn-following-resume" class="btn btn-start hidden">▶ Resume</button>
+        <button id="btn-following-stop" class="btn btn-stop">⛔ Stop</button>
+      </div>
+      <button id="btn-following-done" class="btn btn-start hidden">Scan again</button>
+    </div>
+  </div>
+
+  <!-- ════════ GROUPS PANEL (leave joined groups) ════════ -->
+  <div id="groups-panel" class="panel hidden">
+
+    <!-- Step 1: scan -->
+    <div id="groups-scan-step">
+      <p class="hint">Scan your joined groups, then pick which to leave. Narrow the scan
+        by how long since you last visited to keep the list short.</p>
+      <div class="groups-toolbar">
+        <label class="scan-filter-label" for="scan-filter">Only scan groups not visited in</label>
+        <select id="scan-filter" class="select">
+          <option value="0">Any time</option>
+          <option value="180">6+ months</option>
+          <option value="365">1+ year</option>
+          <option value="730">2+ years</option>
+        </select>
+      </div>
+      <button id="btn-scan" class="btn btn-start">🔍 Scan my groups</button>
+    </div>
+
+    <!-- Step 2: review + select -->
+    <div id="groups-review-step" class="hidden">
+      <input type="text" id="groups-search" class="search-input"
+             placeholder="🔎 Filter by keyword (e.g. dropship, sub4sub)" />
+      <div class="groups-toolbar">
+        <select id="groups-filter" class="select">
+          <option value="0">Show all</option>
+          <option value="180">Not visited 6+ months</option>
+          <option value="365">Not visited 1+ year</option>
+          <option value="730">Not visited 2+ years</option>
+        </select>
+        <label class="selectall"><input type="checkbox" id="groups-selectall" /> All</label>
+      </div>
+      <div id="groups-list" class="groups-list"></div>
+      <button id="btn-leave" class="btn btn-stop" disabled>Leave selected (0)</button>
+    </div>
+
+    <!-- Step 3: confirm -->
+    <div id="groups-confirm-step" class="hidden confirm-box">
+      <p class="confirm-text">
+        Leave <strong id="confirm-count">0</strong> groups? This can't be undone for
+        private groups — rejoining may need admin approval.
+      </p>
+      <div class="controls">
+        <button id="btn-confirm-leave" class="btn btn-stop">Yes, leave them</button>
+        <button id="btn-confirm-cancel" class="btn btn-resume">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Running state + live log -->
+    <div id="groups-running-step" class="hidden">
+      <div id="run-summary" class="run-summary"></div>
+      <div id="groups-log" class="groups-log"></div>
+      <div class="run-controls">
+        <button id="btn-groups-pause" class="btn btn-resume">⏸ Pause</button>
+        <button id="btn-groups-resume" class="btn btn-start hidden">▶ Resume</button>
+        <button id="btn-groups-stop" class="btn btn-stop">⛔ Stop</button>
+      </div>
+      <button id="btn-groups-done" class="btn btn-start hidden">Scan again</button>
+    </div>
+  </div>
+
+  </div> <!-- /screen-feature -->
+
+  <!-- Footer -->
+  <footer>
+    <a href="https://github.com/NoCodegeek/social-cleaner" target="_blank">GitHub</a>
+    <span>·</span>
+    <span>Use responsibly</span>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>
