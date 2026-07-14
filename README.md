@@ -4,7 +4,7 @@
 
 ## 🌪️ The Feed That Wouldn't End
 
-Ah yes. 2010.
+Ah yes. 2008.
 
 A simpler time. You were young, optimistic, and absolutely thrilled to like that pizza brand's Facebook page in exchange for a 10% coupon you never used. You followed a motivational quotes page. Then another. You joined a group about a hobby you tried once. You followed a celebrity fan page for someone who is now, somehow, a podcaster.
 
