@@ -1,5 +1,7 @@
 # ⚡ Social Cleaner
 
+![Social Cleaner — reclaim your Facebook feed](assets/hero.png)
+
 ## 🌪️ The Feed That Wouldn't End
 
 Ah yes. 2010.
