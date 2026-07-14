@@ -2,6 +2,14 @@
 
 ![Social Cleaner — reclaim your Facebook feed](assets/hero.png)
 
+<p align="center">
+  <a href="https://github.com/NoCodegeek/social-cleaner/archive/refs/heads/main.zip">
+    <img src="https://img.shields.io/badge/⬇%20Download-Social%20Cleaner-10b981?style=for-the-badge&logoColor=white" alt="Download Social Cleaner">
+  </a>
+</p>
+
+<p align="center"><b>No terminal needed</b> — click Download, then follow the <a href="#-install-no-terminal-needed">3-minute install</a>.</p>
+
 ## 🌪️ The Feed That Wouldn't End
 
 Ah yes. 2008.
@@ -54,20 +62,29 @@ This extension automates actions on Facebook. **Use it responsibly.** Excessive 
 
 ---
 
-## 🚀 Installation (Chrome)
+## ⬇️ Install (no terminal needed)
 
-> Not on the Chrome Web Store yet. Install manually:
+> Not on the Chrome Web Store yet, so it installs in "developer" mode. It's quick — about 3 minutes, no coding.
 
-1. Download or clone this repository:
-   ```bash
-   git clone https://github.com/NoCodegeek/social-cleaner.git
-   ```
-2. Open Chrome → `chrome://extensions/`
-3. Enable **Developer mode** (top-right toggle)
-4. Click **Load unpacked** and select the project folder
-5. Click the ⚡ **Social Cleaner** icon in your toolbar — the panel opens on the right
+1. **[⬇️ Download the ZIP](https://github.com/NoCodegeek/social-cleaner/archive/refs/heads/main.zip)** (or the green Download button up top).
+2. **Unzip it.** Double-click the downloaded file — you'll get a folder named something like `social-cleaner-main`. Remember where it is (e.g. your Downloads).
+3. Open Chrome and go to **`chrome://extensions`** (type it in the address bar).
+4. Turn on **Developer mode** — the switch in the **top-right** corner.
+5. Click **Load unpacked** (top-left), then select the **unzipped folder** from step 2.
+6. Done! Click the ⚡ **Social Cleaner** icon in your toolbar — the panel opens on the right.
 
-> After any update, reload the extension **and** refresh your Facebook tab so the fresh content script is injected.
+> 💡 If the icon isn't visible, click the puzzle-piece 🧩 icon in Chrome's toolbar and pin **Social Cleaner**.
+>
+> 🔄 If you download a newer version later, delete the old folder, unzip the new one, and click **Reload** on the extension in `chrome://extensions`.
+
+<details>
+<summary>Prefer the command line? (for developers)</summary>
+
+```bash
+git clone https://github.com/NoCodegeek/social-cleaner.git
+```
+Then load the folder via `chrome://extensions` → Developer mode → **Load unpacked**.
+</details>
 
 ---
 
