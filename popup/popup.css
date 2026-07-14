@@ -641,5 +641,15 @@ footer a:hover { color: var(--text); }
 #pages-running-step .btn { width: 100%; }
 #pages-running-step #pages-log { max-height: 240px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 12px; background: var(--surface); }
 
+/* ── Following panel — same full-width button treatment as Pages/Groups ────── */
+#following-scan-step { padding-bottom: 14px; }
+#following-scan-step .btn { margin: 12px 16px 0; width: calc(100% - 32px); }
+
+#btn-following-unfollow { margin: 14px 16px; width: calc(100% - 32px); }
+
+#following-running-step { padding: 14px 16px; }
+#following-running-step .btn { width: 100%; }
+#following-running-step #following-log { max-height: 240px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 12px; background: var(--surface); }
+
 /* ── Utility ──────────────────────────────────────────────────────────────── */
 .hidden { display: none !important; }
