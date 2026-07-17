@@ -423,6 +423,25 @@ footer a:hover { color: var(--text); }
   line-height: 1.4;
 }
 
+/* ── Update banner (shown only when a newer version is on GitHub) ─────────── */
+.update-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--accent-soft);
+  border-bottom: 1px solid var(--accent);
+  color: var(--accent);
+  font-size: 12px;
+  line-height: 1.4;
+  text-decoration: none;
+  cursor: pointer;
+  transition: filter 0.15s;
+}
+.update-banner:hover { filter: brightness(1.25); }
+.update-icon { flex-shrink: 0; }
+.update-text b { font-weight: 700; }
+
 /* ── Platform tabs ────────────────────────────────────────────────────────── */
 .platform-tabs {
   display: flex;

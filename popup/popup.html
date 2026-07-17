@@ -15,6 +15,15 @@
     <span class="version" id="version"></span>
   </header>
 
+  <!-- Update notice — only shown when GitHub has a newer version.
+       Unpacked extensions never auto-update, so we tell the user instead. -->
+  <a id="update-banner" class="update-banner hidden"
+     href="https://github.com/NoCodegeek/social-cleaner/archive/refs/heads/main.zip"
+     target="_blank" rel="noopener">
+    <span class="update-icon">⬆️</span>
+    <span class="update-text">Version <b id="update-version"></b> available — click to download</span>
+  </a>
+
   <!-- Platform tabs — always visible -->
   <div class="platform-tabs">
     <button class="tab-btn" data-platform="facebook">📘 Facebook</button>

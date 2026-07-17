@@ -9,6 +9,41 @@
 document.getElementById('version').textContent =
   'v' + chrome.runtime.getManifest().version;
 
+// ── Update check ────────────────────────────────────────────────────────────
+// Extensions loaded unpacked (from a downloaded ZIP) never auto-update — Chrome
+// only does that for Web Store installs. So compare our version against the
+// manifest on GitHub and surface a download prompt when a newer one exists.
+const UPDATE_MANIFEST_URL =
+  'https://raw.githubusercontent.com/NoCodegeek/social-cleaner/main/manifest.json';
+
+// Numeric semver-ish compare: is `remote` newer than `local`?
+function isNewerVersion(remote, local) {
+  const r = String(remote).split('.').map(n => parseInt(n, 10) || 0);
+  const l = String(local).split('.').map(n => parseInt(n, 10) || 0);
+  for (let i = 0; i < Math.max(r.length, l.length); i++) {
+    const a = r[i] || 0, b = l[i] || 0;
+    if (a > b) return true;
+    if (a < b) return false;
+  }
+  return false; // same version
+}
+
+async function checkForUpdate() {
+  try {
+    const res = await fetch(UPDATE_MANIFEST_URL, { cache: 'no-store' });
+    if (!res.ok) return;
+    const remote = await res.json();
+    const local = chrome.runtime.getManifest().version;
+    if (remote.version && isNewerVersion(remote.version, local)) {
+      document.getElementById('update-version').textContent = remote.version;
+      document.getElementById('update-banner').classList.remove('hidden');
+    }
+  } catch (e) {
+    // Offline, rate-limited, or blocked — stay silent rather than nag.
+  }
+}
+checkForUpdate();
+
 // ── Shared DOM refs ──────────────────────────────────────────────────────────
 const counter       = document.getElementById('counter');
 const counterLabel  = document.getElementById('counter-label');

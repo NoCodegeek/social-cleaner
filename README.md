@@ -30,7 +30,7 @@ A humble little Chrome extension that does the digital equivalent of hiring some
 
 ---
 
-![Version](https://img.shields.io/badge/version-2.0.0-green)
+![Version](https://img.shields.io/badge/version-2.1.0-green)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Platform](https://img.shields.io/badge/platform-Chrome-yellow)
 
